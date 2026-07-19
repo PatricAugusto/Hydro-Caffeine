@@ -5,7 +5,7 @@ import styled from 'styled-components';
 const Backdrop = styled.div`
   position: fixed;
   inset: 0;
-  background: ${({ theme }) => theme.colors.ink}aa;
+  background: color-mix(in srgb, ${({ theme }) => theme.colors.ink} 67%, transparent);
   display: flex;
   align-items: center;
   justify-content: center;

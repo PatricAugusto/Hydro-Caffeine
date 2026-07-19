@@ -15,7 +15,7 @@ const Svg = styled.svg`
 
 const TrackCircle = styled.circle`
   fill: none;
-  stroke: ${({ theme }) => theme.colors.ink}22; /* preto bem sutil, 13% opacidade em hex */
+  stroke: color-mix(in srgb, ${({ theme }) => theme.colors.ink} 13%, transparent);
 `;
 
 const ProgressCircle = styled.circle<{ $color: string }>`

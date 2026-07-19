@@ -1,13 +1,14 @@
 // src/app/page.tsx (atualizado)
-'use client';
+"use client";
 
-import { useState } from 'react';
-import styled, { useTheme } from 'styled-components';
-import { useTracker } from '@/hooks/useTracker';
-import { TrackerDashboard } from '@/components/TrackerDashboard/TrackerDashboard';
-import { GoalsSettings } from '@/components/GoalsSettings/GoalsSettings';
-import { CalendarModal } from '@/components/Calendar/CalendarModal';
-import { IconButton } from '@/components/IconButton/IconButton';
+import { useState } from "react";
+import styled, { useTheme } from "styled-components";
+import { useTracker } from "@/hooks/useTracker";
+import { TrackerDashboard } from "@/components/TrackerDashboard/TrackerDashboard";
+import { GoalsSettings } from "@/components/GoalsSettings/GoalsSettings";
+import { CalendarModal } from "@/components/Calendar/CalendarModal";
+import { IconButton } from "@/components/IconButton/IconButton";
+import { ThemeToggle } from "@/components/ThemeToggle/ThemeToggle";
 
 const Page = styled.main`
   min-height: 100vh;
@@ -42,10 +43,21 @@ export default function Home() {
   return (
     <Page>
       <Header>
-        <AppTitle>HYDRO<span style={{ color: theme.colors.caffeine }}>+</span>ZAP</AppTitle>
+        <AppTitle>
+          HYDRO<span style={{ color: theme.colors.caffeine }}>+</span>ZAP
+        </AppTitle>
         <HeaderActions>
-          <IconButton icon="📅" label="Ver histórico" onClick={() => setCalendarOpen(true)} />
-          <IconButton icon="⚙️" label="Configurar metas" onClick={() => setSettingsOpen(true)} />
+          <ThemeToggle />
+          <IconButton
+            icon="📅"
+            label="Ver histórico"
+            onClick={() => setCalendarOpen(true)}
+          />
+          <IconButton
+            icon="⚙️"
+            label="Configurar metas"
+            onClick={() => setSettingsOpen(true)}
+          />
         </HeaderActions>
       </Header>
 

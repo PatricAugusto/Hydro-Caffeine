@@ -56,7 +56,7 @@ const Input = styled.input<{ $accent: string }>`
   &:focus {
     outline: none;
     border-color: ${({ $accent }) => $accent};
-    box-shadow: 0 0 0 3px ${({ $accent }) => $accent}33;
+    box-shadow: 0 0 0 3px color-mix(in srgb, ${({ $accent }) => $accent} 20%, transparent);
   }
 `;
 

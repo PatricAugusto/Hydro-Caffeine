@@ -1,13 +1,13 @@
 export const theme = {
   colors: {
-    paper: '#FFFDF6',
-    ink: '#14110F',
-    hydro: '#1E7FE8',
-    hydroLight: '#7FC4FF',
-    caffeine: '#FF4B26',
-    caffeineLight: '#FFB199',
-    pop: '#FFD400',
-    alert: '#FF2D95',
+    paper: 'var(--color-paper)',
+    ink: 'var(--color-ink)',
+    hydro: 'var(--color-hydro)',
+    hydroLight: 'var(--color-hydro-light)',
+    caffeine: 'var(--color-caffeine)',
+    caffeineLight: 'var(--color-caffeine-light)',
+    pop: 'var(--color-pop)',
+    alert: 'var(--color-alert)',
   },
   fonts: {
     display: 'var(--font-display)',
@@ -15,16 +15,15 @@ export const theme = {
     mono: 'var(--font-mono)',
   },
   border: {
-    thick: '4px solid #14110F',
-    thin: '2px solid #14110F',
+    thick: '4px solid var(--color-ink)',
+    thin: '2px solid var(--color-ink)',
   },
   radii: {
     panel: '16px',
     pill: '999px',
   },
   shadow: {
-    // sombra "deslocada" estilo quadrinho, sem blur
-    comic: '6px 6px 0px #14110F',
+    comic: '6px 6px 0px var(--color-ink)',
   },
 } as const;
 
