@@ -1,8 +1,8 @@
-// src/hooks/useTracker.ts
 'use client';
 
 import { useCallback, useMemo } from 'react';
 import { useLocalStorage } from './useLocalStorage';
+import { dateKey } from '@/utils/date';
 import type { TrackerState, DrinkType, Entry } from '@/types/tracker';
 
 const DEFAULT_STATE: TrackerState = {
@@ -10,20 +10,17 @@ const DEFAULT_STATE: TrackerState = {
   logs: [],
 };
 
-function todayKey(): string {
-  return new Date().toISOString().split('T')[0];
-}
-
 export function useTracker() {
   const { value: state, set: setState, hydrated } = useLocalStorage<TrackerState>(
     'tracker-state',
     DEFAULT_STATE
   );
 
-  // --- LEITURA: precisa vir toda antes do que depende dela ---
+  // --- LEITURA (dia atual) ---
 
   const todayLog = useMemo(() => {
-    return state.logs.find((log) => log.date === todayKey())?.entries ?? [];
+    const key = dateKey(new Date());
+    return state.logs.find((log) => log.date === key)?.entries ?? [];
   }, [state.logs]);
 
   const totals = useMemo(() => {
@@ -52,11 +49,39 @@ export function useTracker() {
     } as Record<DrinkType, boolean>;
   }, [todayLog]);
 
-  // --- ESCRITA: mutações de estado ---
+  // --- LEITURA (data arbitrária, usado pelo calendário) ---
+
+  const getDayEntries = useCallback((date: Date) => {
+    const key = dateKey(date);
+    return state.logs.find((log) => log.date === key)?.entries ?? [];
+  }, [state.logs]);
+
+  const getDaySummary = useCallback((date: Date) => {
+    const entries = getDayEntries(date);
+    const dayTotals = entries.reduce(
+      (acc, entry) => {
+        acc[entry.type] += entry.amount;
+        return acc;
+      },
+      { water: 0, caffeine: 0 } as Record<DrinkType, number>
+    );
+
+    const waterRatio = dayTotals.water / state.goals.waterMl;
+    const caffeineRatio = dayTotals.caffeine / state.goals.caffeineMg;
+
+    return {
+      entries,
+      totals: dayTotals,
+      water: dayTotals.water === 0 ? 'empty' : waterRatio >= 1 ? 'complete' : 'partial',
+      caffeine: dayTotals.caffeine === 0 ? 'empty' : caffeineRatio >= 1 ? 'over' : 'partial',
+    } as const;
+  }, [getDayEntries, state.goals]);
+
+  // --- ESCRITA ---
 
   const addEntry = useCallback((type: DrinkType, amount: number) => {
     const entry: Entry = { id: crypto.randomUUID(), type, amount, timestamp: Date.now() };
-    const key = todayKey();
+    const key = dateKey(new Date());
 
     setState((prev) => {
       const existingDay = prev.logs.find((log) => log.date === key);
@@ -70,7 +95,7 @@ export function useTracker() {
   }, [setState]);
 
   const removeLastEntry = useCallback((type: DrinkType) => {
-    const key = todayKey();
+    const key = dateKey(new Date());
     setState((prev) => ({
       ...prev,
       logs: prev.logs.map((log) => {
@@ -84,7 +109,7 @@ export function useTracker() {
   }, [setState]);
 
   const resetMetric = useCallback((type: DrinkType) => {
-    const key = todayKey();
+    const key = dateKey(new Date());
     setState((prev) => ({
       ...prev,
       logs: prev.logs.map((log) =>
@@ -99,11 +124,15 @@ export function useTracker() {
     setState((prev) => ({ ...prev, goals: { ...prev.goals, ...goals } }));
   }, [setState]);
 
+  // --- RETORNO (precisa estar no nível raiz da função useTracker) ---
+
   return {
     goals: state.goals,
     totals,
     status,
     hasEntries,
+    getDayEntries,
+    getDaySummary,
     addEntry,
     removeLastEntry,
     resetMetric,

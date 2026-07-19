@@ -1,3 +1,4 @@
+// src/app/page.tsx (atualizado)
 'use client';
 
 import { useState } from 'react';
@@ -5,7 +6,8 @@ import styled, { useTheme } from 'styled-components';
 import { useTracker } from '@/hooks/useTracker';
 import { TrackerDashboard } from '@/components/TrackerDashboard/TrackerDashboard';
 import { GoalsSettings } from '@/components/GoalsSettings/GoalsSettings';
-import { GearButton } from '@/components/GearButton/GearButton';
+import { CalendarModal } from '@/components/Calendar/CalendarModal';
+import { IconButton } from '@/components/IconButton/IconButton';
 
 const Page = styled.main`
   min-height: 100vh;
@@ -26,16 +28,25 @@ const AppTitle = styled.h1`
   letter-spacing: 0.03em;
 `;
 
+const HeaderActions = styled.div`
+  display: flex;
+  gap: 12px;
+`;
+
 export default function Home() {
   const theme = useTheme();
   const { goals, updateGoals } = useTracker();
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [calendarOpen, setCalendarOpen] = useState(false);
 
   return (
     <Page>
       <Header>
         <AppTitle>HYDRO<span style={{ color: theme.colors.caffeine }}>+</span>ZAP</AppTitle>
-        <GearButton onClick={() => setSettingsOpen(true)} />
+        <HeaderActions>
+          <IconButton icon="📅" label="Ver histórico" onClick={() => setCalendarOpen(true)} />
+          <IconButton icon="⚙️" label="Configurar metas" onClick={() => setSettingsOpen(true)} />
+        </HeaderActions>
       </Header>
 
       <TrackerDashboard />
@@ -49,6 +60,8 @@ export default function Home() {
           onClose={() => setSettingsOpen(false)}
         />
       )}
+
+      {calendarOpen && <CalendarModal onClose={() => setCalendarOpen(false)} />}
     </Page>
   );
 }
