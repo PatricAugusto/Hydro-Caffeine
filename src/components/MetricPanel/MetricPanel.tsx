@@ -6,6 +6,7 @@ import { QuickAdd } from "../QuickAdd/QuickAdd";
 import { FeedbackBubble } from "../FeedbackBubble/FeedbackBubble";
 import { useFeedbackBubble } from "@/hooks/useFeedbackBubble";
 import type { DrinkType } from "@/types/tracker";
+import { EntryControls } from "../EntryControls/EntryControls";
 
 const alertPulse = keyframes`
   0%, 100% { border-color: ${({ theme }) => theme.colors.ink}; }
@@ -88,7 +89,10 @@ interface MetricPanelProps {
   accent: string;
   presets: number[];
   isOverLimit?: boolean;
+  hasEntries: boolean;
   onAdd: (amount: number) => void;
+  onUndo: () => void;
+  onReset: () => void;
 }
 
 export function MetricPanel({
@@ -100,7 +104,10 @@ export function MetricPanel({
   accent,
   presets,
   isOverLimit,
+  hasEntries,
   onAdd,
+  onUndo,
+  onReset,
 }: MetricPanelProps) {
   const progress = goal > 0 ? current / goal : 0;
   const { bubble, trigger } = useFeedbackBubble();
@@ -115,10 +122,7 @@ export function MetricPanel({
       {bubble && <FeedbackBubble text={bubble.text} color={accent} />}
       <Title>{title}</Title>
       <GaugeWrapper>
-        <ProgressRing
-          progress={progress}
-          color={isOverLimit ? accent : accent}
-        />
+        <ProgressRing progress={progress} color={accent} />
         <CenterLabel>
           <Value>{current}</Value>
           <Unit>
@@ -132,6 +136,11 @@ export function MetricPanel({
         unit={unit}
         presets={presets}
         onAdd={handleAdd}
+      />
+      <EntryControls
+        hasEntries={hasEntries}
+        onUndo={onUndo}
+        onReset={onReset}
       />
     </Panel>
   );

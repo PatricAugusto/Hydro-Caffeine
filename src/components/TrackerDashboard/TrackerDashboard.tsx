@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import styled, { useTheme } from 'styled-components';
-import { useTracker } from '@/hooks/useTracker';
-import { MetricPanel } from '../MetricPanel/MetricPanel';
+import styled, { useTheme } from "styled-components";
+import { useTracker } from "@/hooks/useTracker";
+import { MetricPanel } from "../MetricPanel/MetricPanel";
 
 const Grid = styled.div`
   display: grid;
@@ -15,7 +15,16 @@ const Grid = styled.div`
 
 export function TrackerDashboard() {
   const theme = useTheme();
-  const { totals, goals, status, addEntry, hydrated } = useTracker();
+  const {
+    totals,
+    goals,
+    status,
+    hasEntries,
+    addEntry,
+    removeLastEntry,
+    resetMetric,
+    hydrated,
+  } = useTracker();
 
   if (!hydrated) return null;
 
@@ -29,7 +38,10 @@ export function TrackerDashboard() {
         unit="ml"
         accent={theme.colors.hydro}
         presets={[200, 300, 500]}
-        onAdd={(amount) => addEntry('water', amount)}
+        hasEntries={hasEntries.water}
+        onAdd={(amount) => addEntry("water", amount)}
+        onUndo={() => removeLastEntry("water")}
+        onReset={() => resetMetric("water")}
       />
       <MetricPanel
         title="CAFEÍNA"
@@ -39,8 +51,11 @@ export function TrackerDashboard() {
         unit="mg"
         accent={theme.colors.caffeine}
         presets={[80, 95, 150]}
-        isOverLimit={status.caffeine === 'over'}
-        onAdd={(amount) => addEntry('caffeine', amount)}
+        isOverLimit={status.caffeine === "over"}
+        hasEntries={hasEntries.caffeine}
+        onAdd={(amount) => addEntry("caffeine", amount)}
+        onUndo={() => removeLastEntry("caffeine")}
+        onReset={() => resetMetric("caffeine")}
       />
     </Grid>
   );

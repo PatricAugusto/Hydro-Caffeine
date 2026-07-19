@@ -1,4 +1,3 @@
-// src/components/ProgressRing/ProgressRing.tsx
 'use client';
 
 import styled from 'styled-components';
