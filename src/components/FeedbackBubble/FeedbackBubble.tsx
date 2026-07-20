@@ -17,7 +17,7 @@ const Bubble = styled.div<{ $color: string }>`
   top: -20px;
   right: -10px;
   background: ${({ theme }) => theme.colors.pop};
-  color: ${({ theme }) => theme.colors.ink};
+  color: ${({ theme }) => theme.colors.inkOnAccent};
   border: ${({ theme }) => theme.border.thick};
   border-radius: ${({ theme }) => theme.radii.pill};
   padding: 6px 16px;

@@ -25,5 +25,9 @@ interface IconButtonProps {
 }
 
 export function IconButton({ icon, label, onClick }: IconButtonProps) {
-  return <Button onClick={onClick} aria-label={label}>{icon}</Button>;
+  return (
+    <Button onClick={onClick} aria-label={label}>
+      <span aria-hidden="true">{icon}</span>
+    </Button>
+  );
 }

@@ -5,6 +5,13 @@ import { dateKey } from '@/utils/date';
 
 type DotStatus = 'empty' | 'partial' | 'complete' | 'over';
 
+const STATUS_LABELS: Record<DotStatus, string> = {
+  empty: 'sem registro',
+  partial: 'consumo parcial',
+  complete: 'meta batida',
+  over: 'limite excedido',
+};
+
 const Cell = styled.button<{ $isCurrentMonth: boolean; $isToday: boolean; $isSelected: boolean }>`
   aspect-ratio: 1;
   border: ${({ theme, $isToday }) => ($isToday ? theme.border.thick : theme.border.thin)};
@@ -42,6 +49,9 @@ const Dot = styled.span<{ $variant: 'water' | 'caffeine'; $status: DotStatus }>`
     if ($status === 'over') return theme.colors.alert;
     return $variant === 'water' ? theme.colors.hydro : theme.colors.caffeine;
   }};
+  /* diferenciador não-cromático: excedido ganha anel duplo, não só cor diferente */
+  box-shadow: ${({ $status, theme }) =>
+    $status === 'over' ? `0 0 0 2px ${theme.colors.paper}, 0 0 0 3px ${theme.colors.ink}` : 'none'};
 `;
 
 interface DayCellProps {
@@ -63,7 +73,7 @@ export function DayCell({
       $isToday={isToday}
       $isSelected={isSelected}
       onClick={() => onSelect(date)}
-      aria-label={`Ver consumo de ${dateKey(date)}`}
+      aria-label={`Dia ${date.getDate()}: água ${STATUS_LABELS[waterStatus]}, cafeína ${STATUS_LABELS[caffeineStatus]}`}
     >
       {date.getDate()}
       <Dots>

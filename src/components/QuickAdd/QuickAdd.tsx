@@ -22,7 +22,7 @@ const AddButton = styled.button<{ $color: string }>`
 
   &:hover {
     background: ${({ $color }) => $color};
-    color: ${({ theme }) => theme.colors.paper};
+    color: ${({ theme }) => theme.colors.inkOnAccent};
   }
 
   &:active {

@@ -2,31 +2,8 @@
 
 import { useState } from 'react';
 import styled from 'styled-components';
+import { ModalShell } from '@/components/ModalShell/ModalShell';
 import type { Goals } from '@/types/tracker';
-
-const Backdrop = styled.div`
-  position: fixed;
-  inset: 0;
-  background: ${({ theme }) => theme.colors.ink}aa;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;
-  padding: 16px;
-`;
-
-const Card = styled.div`
-  background: ${({ theme }) => theme.colors.paper};
-  border: ${({ theme }) => theme.border.thick};
-  border-radius: ${({ theme }) => theme.radii.panel};
-  box-shadow: ${({ theme }) => theme.shadow.comic};
-  padding: 32px;
-  width: 100%;
-  max-width: 380px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-`;
 
 const Heading = styled.h2`
   font-family: ${({ theme }) => theme.fonts.display};
@@ -61,7 +38,7 @@ const Input = styled.input<{ $accent: string }>`
 `;
 
 const ErrorText = styled.span`
-  color: ${({ theme }) => theme.colors.alert};
+  color: ${({ theme }) => theme.colors.alertText};
   font-size: 0.75rem;
   text-transform: none;
   letter-spacing: normal;
@@ -85,7 +62,7 @@ const Button = styled.button<{ $variant: 'primary' | 'ghost' }>`
 
   ${({ $variant, theme }) =>
     $variant === 'primary'
-      ? `background: ${theme.colors.pop}; color: ${theme.colors.ink};`
+      ? `background: ${theme.colors.pop}; color: ${theme.colors.inkOnAccent};`
       : `background: transparent; color: ${theme.colors.ink};`}
 
   &:active {
@@ -124,39 +101,37 @@ export function GoalsSettings({ goals, hydroColor, caffeineColor, onSave, onClos
   };
 
   return (
-    <Backdrop onClick={onClose}>
-      <Card onClick={(e) => e.stopPropagation()}>
-        <Heading>METAS DO DIA</Heading>
+    <ModalShell onClose={onClose} titleId="goals-settings-title">
+      <Heading id="goals-settings-title">METAS DO DIA</Heading>
 
-        <Field>
-          ÁGUA (ML)
-          <Input
-            $accent={hydroColor}
-            type="number"
-            inputMode="numeric"
-            value={waterMl}
-            onChange={(e) => setWaterMl(e.target.value)}
-          />
-        </Field>
+      <Field>
+        ÁGUA (ML)
+        <Input
+          $accent={hydroColor}
+          type="number"
+          inputMode="numeric"
+          value={waterMl}
+          onChange={(e) => setWaterMl(e.target.value)}
+        />
+      </Field>
 
-        <Field>
-          CAFEÍNA (MG)
-          <Input
-            $accent={caffeineColor}
-            type="number"
-            inputMode="numeric"
-            value={caffeineMg}
-            onChange={(e) => setCaffeineMg(e.target.value)}
-          />
-        </Field>
+      <Field>
+        CAFEÍNA (MG)
+        <Input
+          $accent={caffeineColor}
+          type="number"
+          inputMode="numeric"
+          value={caffeineMg}
+          onChange={(e) => setCaffeineMg(e.target.value)}
+        />
+      </Field>
 
-        {error && <ErrorText>{error}</ErrorText>}
+      {error && <ErrorText>{error}</ErrorText>}
 
-        <Actions>
-          <Button $variant="ghost" onClick={onClose}>Cancelar</Button>
-          <Button $variant="primary" onClick={handleSave}>Salvar</Button>
-        </Actions>
-      </Card>
-    </Backdrop>
+      <Actions>
+        <Button $variant="ghost" onClick={onClose}>Cancelar</Button>
+        <Button $variant="primary" onClick={handleSave}>Salvar</Button>
+      </Actions>
+    </ModalShell>
   );
 }

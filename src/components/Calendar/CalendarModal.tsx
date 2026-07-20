@@ -47,9 +47,9 @@ export function CalendarModal({ onClose }: CalendarModalProps) {
     : '';
 
   return (
-    <ModalShell onClose={onClose} maxWidth="420px">
+      <ModalShell onClose={onClose} maxWidth="420px" titleId="calendar-modal-title">
       <CloseButton onClick={onClose}>FECHAR ✕</CloseButton>
-      <Heading>HISTÓRICO</Heading>
+      <Heading id="calendar-modal-title">HISTÓRICO</Heading>
 
       <MonthNavigator
         year={viewDate.year}

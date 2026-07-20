@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 const Backdrop = styled.div`
@@ -31,13 +32,41 @@ const Card = styled.div<{ $maxWidth?: string }>`
 interface ModalShellProps {
   onClose: () => void;
   maxWidth?: string;
+  titleId: string;
   children: React.ReactNode;
 }
 
-export function ModalShell({ onClose, maxWidth, children }: ModalShellProps) {
+export function ModalShell({ onClose, maxWidth, titleId, children }: ModalShellProps) {
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    cardRef.current?.focus();
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', handleKeyDown);
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [onClose]);
+
   return (
     <Backdrop onClick={onClose}>
-      <Card $maxWidth={maxWidth} onClick={(e) => e.stopPropagation()}>
+      <Card
+        ref={cardRef}
+        tabIndex={-1}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        $maxWidth={maxWidth}
+        onClick={(e) => e.stopPropagation()}
+      >
         {children}
       </Card>
     </Backdrop>

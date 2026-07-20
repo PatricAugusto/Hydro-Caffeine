@@ -32,7 +32,7 @@ export function ProgressRing({ progress, color, size = 200, strokeWidth = 16 }: 
   const offset = circumference * (1 - clampedProgress);
 
   return (
-    <Svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
+    <Svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} aria-hidden="true">
       <TrackCircle
         cx={size / 2}
         cy={size / 2}

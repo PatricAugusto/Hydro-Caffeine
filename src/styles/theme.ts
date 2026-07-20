@@ -2,12 +2,14 @@ export const theme = {
   colors: {
     paper: 'var(--color-paper)',
     ink: 'var(--color-ink)',
+    inkOnAccent: 'var(--color-ink-on-accent)',
     hydro: 'var(--color-hydro)',
     hydroLight: 'var(--color-hydro-light)',
     caffeine: 'var(--color-caffeine)',
     caffeineLight: 'var(--color-caffeine-light)',
     pop: 'var(--color-pop)',
     alert: 'var(--color-alert)',
+    alertText: 'var(--color-alert-text)',
   },
   fonts: {
     display: 'var(--font-display)',
