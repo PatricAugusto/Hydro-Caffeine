@@ -12,7 +12,7 @@ interface Bubble {
 
 export function useFeedbackBubble() {
   const [bubble, setBubble] = useState<Bubble | null>(null);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   const trigger = useCallback((type: DrinkType) => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
