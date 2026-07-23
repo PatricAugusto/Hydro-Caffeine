@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# HYDRO+ZAP
 
-## Getting Started
+Controle diário de água e cafeína, com identidade visual Pop Art.
 
-First, run the development server:
+---
+
+## Sobre
+
+HYDRO+ZAP ajuda a manter o consumo diário de água e cafeína equilibrado. Registre doses com um toque, acompanhe o progresso em tempo real e revise seu histórico em um calendário — tudo salvo localmente, sem servidor.
+
+## Funcionalidades
+
+- **Registro rápido** — presets reais de volume (água) e cafeína (espresso, coado, energético)
+- **Metas configuráveis** — defina seus próprios limites diários
+- **Desfazer / zerar** — corrija registros sem deixar dado inconsistente
+- **Alertas visuais** — aviso quando o consumo de cafeína passa do limite
+- **Histórico em calendário** — visão mensal com status por dia
+- **Dark mode** — troca instantânea, sem flash, respeitando a preferência do sistema
+- **Acessível** — navegação por teclado, contraste WCAG AA, suporte a leitor de tela
+
+## Stack
+
+| Camada | Tecnologia |
+|---|---|
+| Framework | Next.js (App Router) |
+| Linguagem | TypeScript |
+| Estilo | styled-components |
+| Persistência | localStorage |
+
+## Rodando localmente
 
 ```bash
+git clone https://github.com/PatricAugusto/Hydro-Caffeine.git
+cd hydro-caffeine-tracker
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Acesse `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Build de produção
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm run start
+```
 
-## Learn More
+## Estrutura
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+├── app/                  # rotas e layout raiz
+├── components/           # componentes de UI
+├── hooks/                # useTracker, useThemeMode, useLocalStorage...
+├── styles/               # tema, estilos globais, tokens de cor
+├── types/                # tipos compartilhados
+└── utils/                # funções puras (data, calendário)
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Design
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Paleta vibrante, contornos grossos, textura halftone e onomatopeias animadas — a interface usa a linguagem visual de HQ como parte funcional do produto, não como decoração.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
